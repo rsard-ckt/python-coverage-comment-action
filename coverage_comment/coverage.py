@@ -94,9 +94,6 @@ def get_coverage_info(
     try:
         if merge:
             subprocess.run("coverage", "combine", path=coverage_path)
-        
-        log.info("-------PRINT COVERAGE MERGED")
-        log.info(subprocess.run("cat", ".coverage", path=coverage_path))
 
         log.info("-------PRINT FILES")
         log.info(subprocess.run("ls", "-la", path=coverage_path))
