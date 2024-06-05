@@ -124,16 +124,11 @@ def process_pr(
         )
         return 0
     
-    log.info("-------COVERAGE PATH")
-    log.info(config.COVERAGE_PATH)
-
     _, coverage = coverage_module.get_coverage_info(
         merge=config.MERGE_COVERAGE_FILES,
         coverage_path=config.COVERAGE_PATH,
     )
 
-    log.info("-------COVERAGE")
-    log.info(coverage)
     base_ref = config.GITHUB_BASE_REF or repo_info.default_branch
 
     added_lines = coverage_module.get_added_lines(git=git, base_ref=base_ref)
@@ -205,9 +200,6 @@ def process_pr(
         )
         return 1
     
-    log.info("-------COMMENT")
-    log.info(comment)
-
     github.add_job_summary(
         content=comment, github_step_summary=config.GITHUB_STEP_SUMMARY
     )
