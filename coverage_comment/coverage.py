@@ -94,9 +94,10 @@ def get_coverage_info(
     try:
         if merge:
             subprocess.run("coverage", "combine", path=coverage_path)
-
-        log.info("-------coverage.json")
-        log.info(subprocess.run("coverage", "json", "-o", "-", path=coverage_path))
+        
+        subprocess.run("coverage", "json", "-o", "rafael.json", path=coverage_path)
+        log.info("-------rafael.json")
+        subprocess.run("cat", "rafael.json", path=coverage_path)
 
         json_coverage = json.loads(
             subprocess.run("coverage", "json", "-o", "-", path=coverage_path)
