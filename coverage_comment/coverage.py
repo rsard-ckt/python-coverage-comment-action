@@ -95,9 +95,19 @@ def get_coverage_info(
         if merge:
             subprocess.run("coverage", "combine", path=coverage_path)
         
-        subprocess.run("coverage", "json", "-o", "rafael.json", path=coverage_path)
-        log.info("-------rafael.json")
-        subprocess.run("cat", "rafael.json", path=coverage_path)
+        log.info("-------PRINT FILES")
+        subprocess.run("ls", "-la", path=coverage_path)
+
+        try:
+            result = subprocess.run("coverage", "json", "-o", "-", path=coverage_path)
+            log.info("-------coverage json command")
+            log.info(result)
+        except subprocess.CalledProcessError as e:
+            print(f"Error: {e.stderr}")
+
+        # subprocess.run("coverage", "json", "-o", "rafael.json", path=coverage_path)
+        # log.info("-------rafael.json")
+        # subprocess.run("cat", "rafael.json", path=coverage_path)
 
         json_coverage = json.loads(
             subprocess.run("coverage", "json", "-o", "-", path=coverage_path)
@@ -286,7 +296,7 @@ def get_diff_coverage_info(
 
 
 def get_added_lines(
-    git: subprocess.Git, base_ref: str
+    git, base_ref: str
 ) -> dict[pathlib.Path, list[int]]:
     # --unified=0 means we don't get any context lines for chunk, and we
     # don't merge chunks. This means the headers that describe line number

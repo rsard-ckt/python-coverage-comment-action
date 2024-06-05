@@ -19,16 +19,15 @@ class GitError(SubProcessError):
 
 def run(*args, path: pathlib.Path, **kwargs) -> str:
     try:
-        return subprocess.run(
+        result = subprocess.run(
             args,
             cwd=path,
             text=True,
-            # Only relates to DecodeErrors while decoding the output
-            errors="replace",
             check=True,
             capture_output=True,
             **kwargs,
-        ).stdout
+        )
+        return result.stdout
     except subprocess.CalledProcessError as exc:
         log.info(
             f"Command failed: {args=} {path=} {kwargs=} {exc.stderr=} {exc.returncode=}"
