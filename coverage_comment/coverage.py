@@ -96,14 +96,17 @@ def get_coverage_info(
         log.info(subprocess.run("ls", "-la", path=coverage_path))
 
         if merge:
-            log.info("-------MERGE")
-            log.info(subprocess.run("coverage", "combine", path=coverage_path))
+            subprocess.run("coverage", "combine", path=coverage_path)
+
+        log.info("-------LIST FILES AFTER MERGE")
+        log.info(subprocess.run("ls", "-la", path=coverage_path))
         
         log.info("-------coverage.json")
-        log.info(subprocess.run("coverage", "json", "-o", "-", path=coverage_path))
+        json_cov = subprocess.run("coverage", "json", "-o", "-", path=coverage_path)
+        log.info(json_cov)
 
         json_coverage = json.loads(
-            subprocess.run("coverage", "json", "-o", "-", path=coverage_path)
+            json_cov
         )
     except subprocess.SubProcessError as exc:
         if "No source for code:" in str(exc):
