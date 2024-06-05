@@ -95,12 +95,18 @@ def get_coverage_info(
         if merge:
             subprocess.run("coverage", "combine", path=coverage_path)
         
+        log.info("-------PRINT COVERAGE MERGED")
+        log.info(subprocess.run("cat", ".coverage", path=coverage_path))
+
         log.info("-------PRINT FILES")
-        subprocess.run("ls", "-la", path=coverage_path)
+        log.info(subprocess.run("ls", "-la", path=coverage_path))
+
+        log.info("-------PRINT XML")
+        log.info(subprocess.run("coverage", "xml", "-o", "-", path=coverage_path))
 
         try:
             result = subprocess.run("coverage", "json", "-o", "-", path=coverage_path)
-            log.info("-------coverage json command")
+            log.info("-------PRINT JSON")
             log.info(result)
         except subprocess.CalledProcessError as e:
             print(f"Error: {e.stderr}")
