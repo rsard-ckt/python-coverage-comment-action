@@ -128,6 +128,7 @@ def process_pr(
         merge=config.MERGE_COVERAGE_FILES,
         coverage_path=config.COVERAGE_PATH,
     )
+    log.info(coverage)
     base_ref = config.GITHUB_BASE_REF or repo_info.default_branch
 
     added_lines = coverage_module.get_added_lines(git=git, base_ref=base_ref)
@@ -198,6 +199,8 @@ def process_pr(
             "template."
         )
         return 1
+    
+    log.info(comment)
 
     github.add_job_summary(
         content=comment, github_step_summary=config.GITHUB_STEP_SUMMARY
