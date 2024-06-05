@@ -123,11 +123,16 @@ def process_pr(
             "Exiting."
         )
         return 0
+    
+    log.info("-------COVERAGE PATH")
+    log.info(config.COVERAGE_PATH)
 
     _, coverage = coverage_module.get_coverage_info(
         merge=config.MERGE_COVERAGE_FILES,
         coverage_path=config.COVERAGE_PATH,
     )
+
+    log.info("-------COVERAGE")
     log.info(coverage)
     base_ref = config.GITHUB_BASE_REF or repo_info.default_branch
 
@@ -200,6 +205,7 @@ def process_pr(
         )
         return 1
     
+    log.info("-------COMMENT")
     log.info(comment)
 
     github.add_job_summary(

@@ -92,8 +92,14 @@ def get_coverage_info(
     merge: bool, coverage_path: pathlib.Path
 ) -> tuple[dict, Coverage]:
     try:
+        log.info("-------LIST FILES")
+        log.info(subprocess.run("ls", path=coverage_path))
+
         if merge:
             subprocess.run("coverage", "combine", path=coverage_path)
+        
+        log.info("-------coverage.json")
+        log.info(subprocess.run("coverage", "json", "-o", "-", path=coverage_path))
 
         json_coverage = json.loads(
             subprocess.run("coverage", "json", "-o", "-", path=coverage_path)
